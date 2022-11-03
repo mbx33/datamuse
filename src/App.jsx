@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import AnswerCard from './AnswerCard';
 
 //find synonyms for a word and return an array of synonyms
 const BASE_URL = 'https://api.datamuse.com/words?rel_syn='; // API URL
@@ -14,6 +15,10 @@ function App() {
 		setAnswers(data);
 
 		console.log(data);
+	};
+
+	const onMouseOver = (e) => {
+		setWords(e.target.innerText);
 	};
 
 	return (
@@ -41,31 +46,15 @@ function App() {
 					</button>
 				</div>
 			</form>
-			<section>
+			<section className="flex-1 m-6">
 				{answers && (
-					<div className="w-1/2 mx-auto mt-8">
-						<h2 className="text-4xl text-center font-bold underline mb-1">
-							Matching Words
-						</h2>
-						<h3 className="text-2xl text-center font-bold mb-4 text-purple-800">
-							Words matching - {words}
-						</h3>
-						<ul className="list-disc list-inside">
-							{answers.map((answer) => {
-								const { word, score } = answer; // destructuring
-								return (
-									<li
-										className="text-xl list-none text-center leading-loose cursor-pointer"
-										key={score}
-										onClick={() => setWords(word)}
-										onDoubleClick={handleSubmit}
-									>
-										{word}
-									</li>
-								);
-							})}
-						</ul>
-					</div>
+					<AnswerCard
+						words={words}
+						setWords={setWords}
+						answers={answers}
+						handleSubmit={handleSubmit}
+						onMouseOver={onMouseOver}
+					/>
 				)}
 			</section>
 		</main>
